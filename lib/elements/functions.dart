@@ -92,16 +92,19 @@ Future<void> saveStock(var serial, var date, var import, var chassis, var model 
       int tempStock = 0;
       int tempCustomer = 0;
       int tempDue = 0;
+      int tempPayment = 0;
       var databaseSnapshot = await databaseRef.child("Auto").get();
       if(databaseSnapshot.value != null) {
         tempStock = int.parse(databaseSnapshot.child("Stock Serial Number").value.toString());
         tempCustomer = int.parse(databaseSnapshot.child("Customer Serial Number").value.toString());
         tempDue = int.parse(databaseSnapshot.child("Due Serial Number").value.toString());
+        tempPayment = int.parse(databaseSnapshot.child("Payment Serial Number").value.toString());
       }
       databaseRef.child('Auto').set({
         'Stock Serial Number' :  tempStock+1,
         'Customer Serial Number' :  tempCustomer,
         'Due Serial Number' :  tempDue,
+        'Payment Serial Number' :  tempPayment,
       });
       
       Navigator.pop(context);
@@ -136,16 +139,19 @@ Future<void> saveCustomer(var serial, var visitDate, var customerName, var conta
       int tempCustomer = 0;
       int tempStock = 0;
       int tempDue = 0;
+      int tempPayment = 0;
       var databaseSnapshot = await databaseRef.child("Auto").get();
       if(databaseSnapshot.value != null) {
         tempCustomer = int.parse(databaseSnapshot.child("Customer Serial Number").value.toString());
         tempStock = int.parse(databaseSnapshot.child("Stock Serial Number").value.toString());
         tempDue = int.parse(databaseSnapshot.child("Due Serial Number").value.toString());
+        tempPayment = int.parse(databaseSnapshot.child("Payment Serial Number").value.toString());
       }
       databaseRef.child('Auto').set({
         'Customer Serial Number' :  tempCustomer+1,
         'Stock Serial Number' :  tempStock,
         'Due Serial Number' :  tempDue,
+        'Payment Serial Number' :  tempPayment,
       });
       
       Navigator.pop(context);
@@ -191,16 +197,19 @@ Future<void> saveDue(var serial, var name, var date, var phone, var totalDue, va
       int tempStock = 0;
       int tempCustomer = 0;
       int tempDue = 0;
+      int tempPayment = 0;
       var databaseSnapshot = await databaseRef.child("Auto").get();
       if(databaseSnapshot.value != null) {
         tempStock = int.parse(databaseSnapshot.child("Stock Serial Number").value.toString());
         tempCustomer = int.parse(databaseSnapshot.child("Customer Serial Number").value.toString());
         tempDue = int.parse(databaseSnapshot.child("Due Serial Number").value.toString());
+        tempPayment = int.parse(databaseSnapshot.child("Payment Serial Number").value.toString());
       }
       databaseRef.child('Auto').set({
         'Stock Serial Number' :  tempStock,
         'Customer Serial Number' :  tempCustomer,
         'Due Serial Number' :  tempDue + 1,
+        'Payment Serial Number' :  tempPayment,
       });
       
       Navigator.pop(context);
@@ -225,6 +234,24 @@ Future<void> savePayment(var serial, var date, var amount, var bank, var account
     'Customer Name': customerName.text
   }).then((value) async {
     
+    int tempStock = 0;
+    int tempCustomer = 0;
+    int tempDue = 0;
+    int tempPayment = 0;
+    var databaseSnapshot = await databaseRef.child("Auto").get();
+    if(databaseSnapshot.value != null) {
+      tempStock = int.parse(databaseSnapshot.child("Stock Serial Number").value.toString());
+      tempCustomer = int.parse(databaseSnapshot.child("Customer Serial Number").value.toString());
+      tempDue = int.parse(databaseSnapshot.child("Due Serial Number").value.toString());
+      tempPayment = int.parse(databaseSnapshot.child("Payment Serial Number").value.toString());
+    }
+    databaseRef.child('Auto').set({
+      'Stock Serial Number' :  tempStock,
+      'Customer Serial Number' :  tempCustomer,
+      'Due Serial Number' :  tempDue,
+      'Payment Serial Number' :  tempPayment + 1,
+    });
+      
     Navigator.pop(context);
     snackbar("Payment Added Successfully", context);
   });
