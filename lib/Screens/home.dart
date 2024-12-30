@@ -9,6 +9,7 @@ class HomeScreen extends StatefulWidget {
   static List<dynamic> stockList = [];
   static List<dynamic> customerList = [];
   static List<dynamic> dueList = [];
+  static List<dynamic> paymentList = [];
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -19,9 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var screen = MediaQuery.sizeOf(context);
     
-    var customerColor = const Color(0xFF415a77);
-    var dueColor = const Color(0xFF3a5a40);
-    var stockColor = Colors.white38;
+    var customerColor = Color.fromARGB(255, 25, 35, 45);
+    var dueColor = Color.fromARGB(255, 30, 25, 45);
+    var stockColor = Color.fromARGB(255, 25, 25, 25);
 
     return Scaffold(
       
@@ -71,11 +72,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         homeContainer("New Follow Up",screen,screen.width * 0.45, customerColor, context),
             
-                        SizedBox(height: screen.height * 0.04),
+                        SizedBox(height: screen.height * 0.03),
                 
                         homeContainer("Follow Up",screen,screen.width * 0.45, customerColor,context),
             
-                        SizedBox(height: screen.height * 0.04),
+                        SizedBox(height: screen.height * 0.03),
                 
                         downloadContainer("Follow Up Excel",screen, customerColor,screen.width * 0.45,context),
                       ],
@@ -87,11 +88,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         homeContainer("Add Due",screen,screen.width * 0.45, dueColor, context),
             
-                        SizedBox(height: screen.height * 0.04),
+                        SizedBox(height: screen.height * 0.03),
                 
                         homeContainer("View Due",screen,screen.width * 0.45, dueColor,context),
             
-                        SizedBox(height: screen.height * 0.04),
+                        SizedBox(height: screen.height * 0.03),
                 
                         downloadContainer("Due Excel",screen, dueColor,screen.width * 0.45,context),
                       ],
@@ -99,11 +100,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
 
-                SizedBox(height: screen.height * 0.04),
+                SizedBox(height: screen.height * 0.03),
                 
                 downloadContainer("All Data Excel",screen, stockColor,screen.width * 0.95,context),
             
-                SizedBox(height: screen.height * 0.04),
+                SizedBox(height: screen.height * 0.03),
                 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -117,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
 
-                SizedBox(height: screen.height * 0.04),
+                SizedBox(height: screen.height * 0.03),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 
-                SizedBox(height: screen.height * 0.04),
+                SizedBox(height: screen.height * 0.03),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -139,7 +140,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     SizedBox(width: screen.width * 0.05),
                     
-                    homeContainer("Vehicle Number",screen,screen.width * 0.45, dueColor,context),    
+                    homeContainer("Vehicle Number",screen,screen.width * 0.45, customerColor,context),    
+                  ],
+                ),
+
+                SizedBox(height: screen.height * 0.03),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    homeContainer("Payment",screen,screen.width * 0.45, dueColor,context),
+
+                    SizedBox(width: screen.width * 0.05),
+                    
+                    downloadContainer("Payment Excel",screen, dueColor,screen.width * 0.45,context),    
                   ],
                 ),
               ],

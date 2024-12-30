@@ -4,9 +4,10 @@ import 'package:pinput/pinput.dart';
 import 'package:show_room/Screens/Customer/add_customer.dart';
 import 'package:show_room/Screens/Due/add_due.dart';
 import 'package:show_room/Screens/Due/view_due.dart';
+import 'package:show_room/Screens/Payment/payment.dart';
 import 'package:show_room/Screens/Stock/add_stock.dart';
-import 'package:show_room/Screens/Stock/after_sales.dart';
-import 'package:show_room/Screens/Stock/vehicle_number.dart';
+import 'package:show_room/Screens/Invoice/after_sales.dart';
+import 'package:show_room/Screens/Invoice/vehicle_number.dart';
 import 'package:show_room/Screens/home.dart';
 import 'package:show_room/Screens/Stock/modify_stock.dart';
 import 'package:show_room/Screens/Customer/view_customer.dart';
@@ -112,13 +113,16 @@ Widget homeContainer(var title, var screen, var size, var color, var context) {
           Navigator.push(context,MaterialPageRoute(builder: (context) => const VehicleNumberScreen()));
         } else if(title == "View Due") {
           showDialog(context: context,builder: (context) {return passwordDueBox(context);});
+        } else if(title == "Payment") {
+          await getPaymentSerialNumber();
+          Navigator.push(context,MaterialPageRoute(builder: (context) => const PaymentScreen()));
         }
       },
       child: Text(title,
       style: TextStyle(
-        color: accentColor1,
+        color: Colors.white60,
         fontSize: screen.width * 0.04,
-        fontWeight: FontWeight.w700
+        fontWeight: FontWeight.w400
       ),)
     )
   );
@@ -134,6 +138,8 @@ Widget downloadContainer(var title, var screen,var color,var size, var context) 
     databaseRef = FirebaseDatabase.instance.ref('Customer');
   } else if(title == "Due Excel") {
     databaseRef = FirebaseDatabase.instance.ref('Due');
+  } else if(title == "Payment Excel") {
+    databaseRef = FirebaseDatabase.instance.ref('Payment');
   }
 
   return SizedBox(
@@ -152,10 +158,22 @@ Widget downloadContainer(var title, var screen,var color,var size, var context) 
           await createCustomerExcel();
         } else if(title == "Due Excel"){
           await createDueExcel();
+        } else if(title == "Payment Excel"){
+          await createPaymentExcel();
         }
       },
       child: Column(
         children: [
+          Padding(
+            padding: EdgeInsets.only( top: screen.width * 0.04),
+            child: Text(title,
+              style: TextStyle(
+                color: Colors.white60,
+                fontSize: screen.width * 0.04,
+                fontWeight: FontWeight.w400
+              ),
+            ),
+          ),
           Expanded(
             child: StreamBuilder(
               stream: databaseRef.onValue,
@@ -168,16 +186,12 @@ Widget downloadContainer(var title, var screen,var color,var size, var context) 
                     HomeScreen.customerList = map.values.toList();
                   } else if(title == "Due Excel") {
                     HomeScreen.dueList = map.values.toList();
+                  } else if(title == "Payment Excel") {
+                    HomeScreen.paymentList = map.values.toList();
                   }
                   return Padding(
                     padding: const EdgeInsets.only(top: 16.0),
-                    child: Text(title,
-                      style: TextStyle(
-                        color: accentColor1,
-                        fontSize: screen.width * 0.04,
-                        fontWeight: FontWeight.w700
-                      ),
-                    ),
+                    child: null
                   );
                 } else {
                   return SizedBox();

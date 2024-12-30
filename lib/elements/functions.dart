@@ -7,9 +7,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:show_room/Auth/login.dart';
 import 'package:show_room/Screens/Customer/add_customer.dart';
 import 'package:show_room/Screens/Due/add_due.dart';
+import 'package:show_room/Screens/Payment/payment.dart';
 import 'package:show_room/Screens/Stock/add_stock.dart';
-import 'package:show_room/Screens/Stock/after_sales.dart';
-import 'package:show_room/Screens/Stock/vehicle_number.dart';
+import 'package:show_room/Screens/Invoice/after_sales.dart';
+import 'package:show_room/Screens/Invoice/vehicle_number.dart';
 import 'package:show_room/Screens/home.dart';
 import 'package:show_room/Screens/Stock/modify_stock.dart';
 import 'package:show_room/elements/widgets.dart';
@@ -50,6 +51,14 @@ Future<void> getDueSerialNumber() async {
   var databaseSnapshot = await databaseRef.child('Auto').get();
   if(databaseSnapshot.value != null) {
     AddDueScreen.serial = int.parse(databaseSnapshot.child("Due Serial Number").value.toString()) + 1;
+  }
+}
+
+Future<void> getPaymentSerialNumber() async {
+  final databaseRef = FirebaseDatabase.instance.ref();
+  var databaseSnapshot = await databaseRef.child('Auto').get();
+  if(databaseSnapshot.value != null) {
+    PaymentScreen.serial = int.parse(databaseSnapshot.child("Payment Serial Number").value.toString()) + 1;
   }
 }
 
@@ -200,6 +209,24 @@ Future<void> saveDue(var serial, var name, var date, var phone, var totalDue, va
       Navigator.pop(context);
       snackbar("Due Modiefied Successfully", context);
     }
+  });
+}
+
+Future<void> savePayment(var serial, var date, var amount, var bank, var accountNumber, var depositor, var customerName, var context) async {
+  
+  final databaseRef = FirebaseDatabase.instance.ref();
+  databaseRef.child('Payment').child(serial.toString()).set({
+    'Serial Number': serial.toString(),
+    'Date': date,
+    'Amount': amount.text,
+    'Bank': bank.text,
+    'Account Number': accountNumber.text,
+    'Depositor': depositor.text,
+    'Customer Name': customerName.text
+  }).then((value) async {
+    
+    Navigator.pop(context);
+    snackbar("Payment Added Successfully", context);
   });
 }
 
@@ -711,7 +738,7 @@ Future<void> createCustomerExcel() async {
 }
 
 Future<void> createDueExcel() async {
-  print(HomeScreen.dueList);
+  
   String red = "#cf4747";
   String green = "#53a942";
 
@@ -766,6 +793,40 @@ Future<void> createDueExcel() async {
 
   final String path = (await getApplicationSupportDirectory()).path;
   final String fileName = '$path/Due.xls';
+
+  final File file = File(fileName);
+  await file.writeAsBytes(bytes, flush: true);
+
+  OpenFile.open(fileName);
+}
+
+Future<void> createPaymentExcel() async {
+  
+  final Workbook workbook = Workbook();
+  final Worksheet sheet = workbook.worksheets[0];
+
+  sheet.getRangeByName("A1").setText("SERIAL NO");
+  sheet.getRangeByName("B1").setText("DATE");
+  sheet.getRangeByName("C1").setText("AMOUNT");
+  sheet.getRangeByName("D1").setText("BANK");
+  sheet.getRangeByName("E1").setText("ACCOUNT NUMBER");
+  sheet.getRangeByName("F1").setText("DEPOSITOR");
+  sheet.getRangeByName("G1").setText("CUSTOMER NAME");
+  
+  for (int i=0; i<HomeScreen.paymentList.length; i++) {
+    sheet.getRangeByName("A${i+3}").setText(HomeScreen.paymentList[i]["Serial Number"].toString().toUpperCase());
+    sheet.getRangeByName("B${i+3}").setText(HomeScreen.paymentList[i]["Date"].toString().toUpperCase());
+    sheet.getRangeByName("C${i+3}").setText(HomeScreen.paymentList[i]["Amount"].toString().toUpperCase());
+    sheet.getRangeByName("D${i+3}").setText(HomeScreen.paymentList[i]["Bank"].toString().toUpperCase());
+    sheet.getRangeByName("E${i+3}").setText(HomeScreen.paymentList[i]["Account Number"].toString().toUpperCase());
+    sheet.getRangeByName("F${i+3}").setText(HomeScreen.paymentList[i]["Depositor"].toString().toUpperCase());
+    sheet.getRangeByName("G${i+3}").setText(HomeScreen.paymentList[i]["Customer Name"].toString().toUpperCase());
+  }
+  final List<int> bytes = workbook.saveAsStream();
+  workbook.dispose();
+
+  final String path = (await getApplicationSupportDirectory()).path;
+  final String fileName = '$path/Payment.xls';
 
   final File file = File(fileName);
   await file.writeAsBytes(bytes, flush: true);

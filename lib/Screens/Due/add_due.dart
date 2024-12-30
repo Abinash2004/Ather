@@ -106,99 +106,97 @@ class _AddDueScreenState extends State<AddDueScreen> {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
-          child: Align(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                inputContainer(Text("Serial Number : ${AddDueScreen.serial}",style: textStyle())),
-                SizedBox(height: 20),
-
-                textField("Customer Name", name, false),
-                SizedBox(height: 20),
-
-                inputContainer(Row(children: [
-                    Text("Date : \t$dueDate",style: textStyle()),
-                    IconButton(onPressed: () => _selectDate("0",context),icon: Icon(Icons.calendar_month, color: Colors.white60,size: 25)),
-                  ],
-                )),
-                SizedBox(height: 20),
-
-                textField("Phone Number", phone, true),
-                SizedBox(height: 20),
-
-                textField("Total Due", totalDue, true),
-                SizedBox(height: 20),
-
-                inputContainer(Row(children: [
-                    Text("Due Status : \t",style: textStyle()),
-                    DropdownButton<String>(
-                      dropdownColor: Color.fromARGB(255, 15, 15, 15),
-                      value: dueStatus,
-                      items: statusList.map((String item) {
-                        return DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(item,style: textStyle()),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {dueStatus = newValue;});
-                      },
-                    ),    
-                  ],
-                )),
-                SizedBox(height: 20),
-                
-                textField("Paid Amount 1st", paidAmount1, true),
-                SizedBox(height: 20),
-
-                inputContainer(Row(children: [
-                    Text("Date 1st : \t$paidDate1",style: textStyle()),
-                    IconButton(onPressed: () => _selectDate("1",context),icon: Icon(Icons.calendar_month, color: Colors.white60,size: 25)),
-                  ],
-                )),
-                SizedBox(height: 20),
-
-                textField("Paid Amount 2nd", paidAmount2, true),
-                SizedBox(height: 20),
-
-                inputContainer(Row(children: [
-                    Text("Date 2nd : \t$paidDate2",style: textStyle()),
-                    IconButton(onPressed: () => _selectDate("2",context),icon: Icon(Icons.calendar_month, color: Colors.white60,size: 25)),
-                  ],
-                )),
-                SizedBox(height: 20),
-
-                textField("Paid Amount 3rd", paidAmount3, true),
-                SizedBox(height: 20),
-
-                inputContainer(Row(children: [
-                    Text("Date 3rd : \t$paidDate3",style: textStyle()),
-                    IconButton(onPressed: () => _selectDate("3",context),icon: Icon(Icons.calendar_month, color: Colors.white60,size: 25)),
-                  ],
-                )),
-                SizedBox(height: 20),
-
-                textField("Paid Amount 4th", paidAmount4, true),
-                SizedBox(height: 20),
-
-                inputContainer(Row(children: [
-                    Text("Date 4th : \t$paidDate4",style: textStyle()),
-                    IconButton(onPressed: () => _selectDate("4",context),icon: Icon(Icons.calendar_month, color: Colors.white60,size: 25)),
-                  ],
-                )),
-                SizedBox(height: 20),
-
-                textField("Paid Amount 5th", paidAmount5, true),
-                SizedBox(height: 20),
-
-                inputContainer(Row(children: [
-                    Text("Date 5th : \t$paidDate5",style: textStyle()),
-                    IconButton(onPressed: () => _selectDate("5",context),icon: Icon(Icons.calendar_month, color: Colors.white60,size: 25)),
-                  ],
-                )),
-                SizedBox(height: 20),
-              ],
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              inputContainer(Text("Serial Number : ${AddDueScreen.serial}",style: textStyle())),
+              SizedBox(height: 20),
+          
+              textField("Customer Name", name, false),
+              SizedBox(height: 20),
+          
+              inputContainer(Row(children: [
+                  Text("Date : \t$dueDate",style: textStyle()),
+                  IconButton(onPressed: () => _selectDate("0",context),icon: Icon(Icons.calendar_month, color: Colors.white60,size: 25)),
+                ],
+              )),
+              SizedBox(height: 20),
+          
+              textField("Phone Number", phone, true),
+              SizedBox(height: 20),
+          
+              textField("Total Due", totalDue, true),
+              SizedBox(height: 20),
+          
+              inputContainer(Row(children: [
+                  Text("Due Status : \t",style: textStyle()),
+                  DropdownButton<String>(
+                    dropdownColor: Color.fromARGB(255, 15, 15, 15),
+                    value: dueStatus,
+                    items: statusList.map((String item) {
+                      return DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(item,style: textStyle()),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {dueStatus = newValue;});
+                    },
+                  ),    
+                ],
+              )),
+              SizedBox(height: 20),
+              
+              textField("Paid Amount 1st", paidAmount1, true),
+              SizedBox(height: 20),
+          
+              inputContainer(Row(children: [
+                  Text("Date 1st : \t$paidDate1",style: textStyle()),
+                  IconButton(onPressed: () => _selectDate("1",context),icon: Icon(Icons.calendar_month, color: Colors.white60,size: 25)),
+                ],
+              )),
+              SizedBox(height: 20),
+          
+              textField("Paid Amount 2nd", paidAmount2, true),
+              SizedBox(height: 20),
+          
+              inputContainer(Row(children: [
+                  Text("Date 2nd : \t$paidDate2",style: textStyle()),
+                  IconButton(onPressed: () => _selectDate("2",context),icon: Icon(Icons.calendar_month, color: Colors.white60,size: 25)),
+                ],
+              )),
+              SizedBox(height: 20),
+          
+              textField("Paid Amount 3rd", paidAmount3, true),
+              SizedBox(height: 20),
+          
+              inputContainer(Row(children: [
+                  Text("Date 3rd : \t$paidDate3",style: textStyle()),
+                  IconButton(onPressed: () => _selectDate("3",context),icon: Icon(Icons.calendar_month, color: Colors.white60,size: 25)),
+                ],
+              )),
+              SizedBox(height: 20),
+          
+              textField("Paid Amount 4th", paidAmount4, true),
+              SizedBox(height: 20),
+          
+              inputContainer(Row(children: [
+                  Text("Date 4th : \t$paidDate4",style: textStyle()),
+                  IconButton(onPressed: () => _selectDate("4",context),icon: Icon(Icons.calendar_month, color: Colors.white60,size: 25)),
+                ],
+              )),
+              SizedBox(height: 20),
+          
+              textField("Paid Amount 5th", paidAmount5, true),
+              SizedBox(height: 20),
+          
+              inputContainer(Row(children: [
+                  Text("Date 5th : \t$paidDate5",style: textStyle()),
+                  IconButton(onPressed: () => _selectDate("5",context),icon: Icon(Icons.calendar_month, color: Colors.white60,size: 25)),
+                ],
+              )),
+              SizedBox(height: 20),
+            ],
           ),
         ),
       ),
