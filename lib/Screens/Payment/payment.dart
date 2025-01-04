@@ -6,7 +6,7 @@ import 'package:show_room/elements/widgets.dart';
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
   
-  static var serial = 0;
+  static var serial = "0";
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();

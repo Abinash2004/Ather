@@ -34,7 +34,7 @@ Future<void> getStockSerialNumber() async {
   final databaseRef = FirebaseDatabase.instance.ref();
   var databaseSnapshot = await databaseRef.child('Auto').get();
   if(databaseSnapshot.value != null) {
-    AddStockScreen.serial = int.parse(databaseSnapshot.child("Stock Serial Number").value.toString()) + 1;
+    AddStockScreen.serial = databaseSnapshot.child("Stock Serial Number").value.toString();
   }
 }
 
@@ -42,7 +42,7 @@ Future<void> getCustomerSerialNumber() async {
   final databaseRef = FirebaseDatabase.instance.ref();
   var databaseSnapshot = await databaseRef.child('Auto').get();
   if(databaseSnapshot.value != null) {
-    AddCustomerScreen.serial = int.parse(databaseSnapshot.child("Customer Serial Number").value.toString()) + 1;
+    AddCustomerScreen.serial = databaseSnapshot.child("Customer Serial Number").value.toString();
   }
 }
 
@@ -50,7 +50,7 @@ Future<void> getDueSerialNumber() async {
   final databaseRef = FirebaseDatabase.instance.ref();
   var databaseSnapshot = await databaseRef.child('Auto').get();
   if(databaseSnapshot.value != null) {
-    AddDueScreen.serial = int.parse(databaseSnapshot.child("Due Serial Number").value.toString()) + 1;
+    AddDueScreen.serial = databaseSnapshot.child("Due Serial Number").value.toString();
   }
 }
 
@@ -58,7 +58,7 @@ Future<void> getPaymentSerialNumber() async {
   final databaseRef = FirebaseDatabase.instance.ref();
   var databaseSnapshot = await databaseRef.child('Auto').get();
   if(databaseSnapshot.value != null) {
-    PaymentScreen.serial = int.parse(databaseSnapshot.child("Payment Serial Number").value.toString()) + 1;
+    PaymentScreen.serial = databaseSnapshot.child("Payment Serial Number").value.toString();
   }
 }
 
@@ -71,7 +71,7 @@ Future<void> saveStock(var serial, var date, var import, var chassis, var model 
               (int.tryParse(proPack.text) ?? 0);
   
   final databaseRef = FirebaseDatabase.instance.ref();
-  databaseRef.child('Stock').child(serial.toString()).set({
+  databaseRef.child('Stock').child((serial == "1") ? "01" : serial.toString()).set({
     'Serial Number': serial.toString(),
     'Stock Date': date,
     'Import Method': import,
@@ -101,10 +101,10 @@ Future<void> saveStock(var serial, var date, var import, var chassis, var model 
         tempPayment = int.parse(databaseSnapshot.child("Payment Serial Number").value.toString());
       }
       databaseRef.child('Auto').set({
-        'Stock Serial Number' :  tempStock+1,
-        'Customer Serial Number' :  tempCustomer,
-        'Due Serial Number' :  tempDue,
-        'Payment Serial Number' :  tempPayment,
+        'Stock Serial Number' :  (tempStock+1).toString(),
+        'Customer Serial Number' :  (tempCustomer).toString(),
+        'Due Serial Number' :  (tempDue).toString(),
+        'Payment Serial Number' :  (tempPayment).toString(),
       });
       
       Navigator.pop(context);
@@ -119,7 +119,7 @@ Future<void> saveStock(var serial, var date, var import, var chassis, var model 
 Future<void> saveCustomer(var serial, var visitDate, var customerName, var contactNumber, var address, var model , var variant , var color, var customerStatus, var paymentType, var followUpDate, var remark1, var remark2, var isUpdate, var context) async {
   
   final databaseRef = FirebaseDatabase.instance.ref();
-  databaseRef.child('Customer').child(serial.toString()).set({
+  databaseRef.child('Customer').child((serial == "1") ? "01" : serial.toString()).set({
     'Serial Number': serial.toString(),
     'Visit Date': visitDate,
     'Customer Name': customerName.text,
@@ -148,10 +148,10 @@ Future<void> saveCustomer(var serial, var visitDate, var customerName, var conta
         tempPayment = int.parse(databaseSnapshot.child("Payment Serial Number").value.toString());
       }
       databaseRef.child('Auto').set({
-        'Customer Serial Number' :  tempCustomer+1,
-        'Stock Serial Number' :  tempStock,
-        'Due Serial Number' :  tempDue,
-        'Payment Serial Number' :  tempPayment,
+        'Customer Serial Number' :  (tempCustomer+1).toString(),
+        'Stock Serial Number' :  (tempStock).toString(),
+        'Due Serial Number' :  (tempDue).toString(),
+        'Payment Serial Number' :  (tempPayment).toString(),
       });
       
       Navigator.pop(context);
@@ -173,7 +173,7 @@ Future<void> saveDue(var serial, var name, var date, var phone, var totalDue, va
               (int.tryParse(paidAmount5.text) ?? 0));
   
   final databaseRef = FirebaseDatabase.instance.ref();
-  databaseRef.child('Due').child(serial.toString()).set({
+  databaseRef.child('Due').child((serial == "1") ? "01" : serial.toString()).set({
     'Serial Number': serial.toString(),
     'Customer Name': name.text,
     'Date': date,
@@ -206,10 +206,10 @@ Future<void> saveDue(var serial, var name, var date, var phone, var totalDue, va
         tempPayment = int.parse(databaseSnapshot.child("Payment Serial Number").value.toString());
       }
       databaseRef.child('Auto').set({
-        'Stock Serial Number' :  tempStock,
-        'Customer Serial Number' :  tempCustomer,
-        'Due Serial Number' :  tempDue + 1,
-        'Payment Serial Number' :  tempPayment,
+        'Stock Serial Number' :  (tempStock).toString(),
+        'Customer Serial Number' :  (tempCustomer).toString(),
+        'Due Serial Number' :  (tempDue + 1).toString(),
+        'Payment Serial Number' :  (tempPayment).toString(),
       });
       
       Navigator.pop(context);
@@ -224,7 +224,7 @@ Future<void> saveDue(var serial, var name, var date, var phone, var totalDue, va
 Future<void> savePayment(var serial, var date, var amount, var bank, var accountNumber, var depositor, var customerName, var context) async {
   
   final databaseRef = FirebaseDatabase.instance.ref();
-  databaseRef.child('Payment').child(serial.toString()).set({
+  databaseRef.child('Payment').child((serial == "1") ? "01" : serial.toString()).set({
     'Serial Number': serial.toString(),
     'Date': date,
     'Amount': amount.text,
@@ -246,10 +246,10 @@ Future<void> savePayment(var serial, var date, var amount, var bank, var account
       tempPayment = int.parse(databaseSnapshot.child("Payment Serial Number").value.toString());
     }
     databaseRef.child('Auto').set({
-      'Stock Serial Number' :  tempStock,
-      'Customer Serial Number' :  tempCustomer,
-      'Due Serial Number' :  tempDue,
-      'Payment Serial Number' :  tempPayment + 1,
+      'Stock Serial Number' :  (tempStock).toString(),
+      'Customer Serial Number' :  (tempCustomer).toString(),
+      'Due Serial Number' :  (tempDue).toString(),
+      'Payment Serial Number' :  (tempPayment + 1).toString(),
     });
       
     Navigator.pop(context);
@@ -259,7 +259,7 @@ Future<void> savePayment(var serial, var date, var amount, var bank, var account
 
 Future<void> getStockReport(var stockSerial, context) async {
   final databaseRef = FirebaseDatabase.instance.ref();
-  var databaseSnapshot = await databaseRef.child('Stock').child(stockSerial.text.toString().toUpperCase()).get(); 
+  var databaseSnapshot = await databaseRef.child('Stock').child((stockSerial.text.toString() == "1") ? "01" : stockSerial.text.toString()).get(); 
   if(databaseSnapshot.value != null) {
     ModifyStockScreen.serial = databaseSnapshot.child("Serial Number").value.toString();
     ModifyStockScreen.stockDate = databaseSnapshot.child("Stock Date").value.toString();
@@ -292,7 +292,7 @@ Future<void> getStockReport(var stockSerial, context) async {
 
 Future<void> getStockInvoice(var stockSerial, context) async {
   final databaseRef = FirebaseDatabase.instance.ref();
-  var databaseSnapshot = await databaseRef.child('Stock').child(stockSerial.text.toString().toUpperCase()).get(); 
+  var databaseSnapshot = await databaseRef.child('Stock').child((stockSerial.text.toString() == "1") ? "01" : stockSerial.text.toString().toUpperCase()).get(); 
   if(databaseSnapshot.value != null) {
     if(databaseSnapshot.child("Invoice Number").value.toString() != "null") {
       snackbar("Invoic already added", context);
@@ -314,7 +314,7 @@ Future<void> getStockInvoice(var stockSerial, context) async {
 
 Future<void> getStockVehicle(var stockSerial, context) async {
   final databaseRef = FirebaseDatabase.instance.ref();
-  var databaseSnapshot = await databaseRef.child('Stock').child(stockSerial.text.toString().toUpperCase()).get(); 
+  var databaseSnapshot = await databaseRef.child('Stock').child((stockSerial.text.toString() == "1") ? "01" : stockSerial.text.toString().toUpperCase()).get(); 
   if(databaseSnapshot.value != null) {
     if(databaseSnapshot.child("Vehicle Number").value.toString() != "null") {
       snackbar("Vehicle Number Exists", context);

@@ -5,7 +5,7 @@ import 'package:show_room/elements/widgets.dart';
 
 class AddCustomerScreen extends StatefulWidget {
   const AddCustomerScreen({super.key});
-  static var serial = 0;
+  static var serial = "0";
 
   @override
   State<AddCustomerScreen> createState() => _AddCustomerScreenState();
