@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
@@ -18,15 +17,17 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
 Future<void> login(var code, var context) async {
   try {
-    await FirebaseAuth.instance
-      .signInWithEmailAndPassword(email: "showroom@mail.com", password: code)
-      .then((value) {
-        LoginScreen.error = "";
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
-        snackbar("Logged In Successfully", context);
-      });
-  } on FirebaseAuthException catch (error) {
-    LoginScreen.error = error.message.toString();
+    final databaseRef = FirebaseDatabase.instance.ref();
+    var databaseSnapshot = await databaseRef.child('Login').get();
+    if(code.toString() == databaseSnapshot.child("Login").value.toString()) {
+      LoginScreen.error = "";
+      Navigator.push(context,MaterialPageRoute(builder: (context) => const HomeScreen()));
+      snackbar("Logged In Successfully", context);
+    } else {
+      LoginScreen.error = "Incorrect Code";
+    }
+  }  catch (error) {
+    LoginScreen.error = error.toString();
   }
 }
 

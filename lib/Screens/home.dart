@@ -1,6 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:show_room/Auth/login.dart';
 import 'package:show_room/elements/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -43,17 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Color(0xff0b090a),
         
         automaticallyImplyLeading: false,
-        
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut().then((value,) {
-                Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => const LoginScreen()),(Route<dynamic> route) => false);
-              });
-            },
-            icon: Icon(Icons.logout, color: Colors.white60)
-          )
-        ],
       ),
       
       body: Padding(

@@ -70,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
                   } else {
                     await login(code.text, context);
+                    setState(() {});
                   }
                 },
                 child: Text("SUBMIT",

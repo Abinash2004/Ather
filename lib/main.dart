@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:show_room/Auth/login.dart';
-import 'package:show_room/Screens/home.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -24,15 +22,7 @@ class MyApp extends StatelessWidget {
       
       debugShowCheckedModeBanner: false,
       
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (ctx, snapshot) {
-          if (snapshot.hasData) {
-            return const HomeScreen();
-          }
-          return const LoginScreen();
-        },
-      ),
+      home: const LoginScreen(),
     );
   }
 }
