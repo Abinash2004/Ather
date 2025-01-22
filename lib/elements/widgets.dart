@@ -182,12 +182,16 @@ Widget downloadContainer(var title, var screen,var color,var size, var context) 
                   Map<dynamic, dynamic> map = snapshot.data!.snapshot.value as dynamic;
                   if(title == "All Data Excel" || title == "Stock" || title == "Sales") {
                     HomeScreen.stockList = map.values.toList();
+                    HomeScreen.stockList.sort((a, b) => int.parse(a['Serial Number']).compareTo(int.parse(b['Serial Number'])));
                   } else if(title == "Follow Up Excel") {
                     HomeScreen.customerList = map.values.toList();
+                    HomeScreen.customerList.sort((a, b) => int.parse(a['Serial Number']).compareTo(int.parse(b['Serial Number'])));
                   } else if(title == "Due Excel") {
                     HomeScreen.dueList = map.values.toList();
+                    HomeScreen.dueList.sort((a, b) => int.parse(a['Serial Number']).compareTo(int.parse(b['Serial Number'])));
                   } else if(title == "Payment Excel") {
                     HomeScreen.paymentList = map.values.toList();
+                    HomeScreen.paymentList.sort((a, b) => int.parse(a['Serial Number']).compareTo(int.parse(b['Serial Number'])));
                   }
                   return Padding(
                     padding: const EdgeInsets.only(top: 16.0),
